@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "text-summarization-transformers"
+version = "1.0.0"
+description = "Abstractive news summarisation with pre-trained encoder-decoder models (BART, T5, Pegasus), extractive baselines (Lead-3, TextRank), ROUGE evaluation and fine-tuning."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "torch>=2.1",
+    "transformers>=4.40",
+    "tokenizers>=0.19",
+    "sentencepiece>=0.1.99",
+    "protobuf>=3.20",
+    "rouge-score>=0.1.2",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+]
+
+[project.scripts]
+summarize-evaluate = "text_summarization.evaluate:main"
+summarize-text = "text_summarization.summarize:main"
+summarize-finetune = "text_summarization.finetune:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/build_notebook.py" = ["E501"]
